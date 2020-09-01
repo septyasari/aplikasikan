@@ -1,0 +1,51 @@
+ <?php
+                        $jml = mysqli_num_rows(mysqli_query($con,$queryJml));
+                        echo "Jumlah Data : <b>$jml</b>";
+                        ?>
+                       
+<?php
+// Load file koneksi.php
+include "config/config..php";
+// Ambil Data yang Dikirim dari Form
+$id_gardu = $_POST['id_gardu'];
+$tanggal = $_POST['tanggal'];
+$petugas = $_POST['petugas'];
+$penyulang = $_POST['penyulang'];
+$lokasi = $_POST['lokasi'];
+$type = $_POST['type'];
+$kapasitas = $_POST['kapasitas'];
+$notiang = $_POST['notiang'];
+// Proses simpan ke Database
+$sql = $pdo->prepare("INSERT INTO tb_pelaksana(id_gardu, tanggal, petugas, penyulang, lokasi, type, kapasitas, notiang) VALUES(:id_gardu,:tanggal,:petugas,:penyulang,:lokasi,:type,:kapasitas,:notiang)");
+$sql->bindParam(':id_gardu', $id_gardu);
+$sql->bindParam(':tanggal', $tanggal);
+$sql->bindParam(':petugas', $petugas);
+$sql->bindParam(':penyulang', $penyulang);
+$sql->bindParam(':lokasi', $lokasi);
+$sql->bindParam(':type', $type);
+$sql->bindParam(':kapasitas', $kapasitas);
+$sql->bindParam(':notiang', $notiang);
+$sql->execute(); // Eksekusi query insert
+if($sql){ // Cek jika proses simpan ke database sukses atau tidak
+  // Jika Sukses, Lakukan :
+  header("location: inspeksi.php"); // Redirect ke halaman inspeksi.php
+}else{
+  // Jika Gagal, Lakukan :
+  echo "Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
+  echo "<br><a href='simpan.php'>Kembali Ke Form</a>";
+}
+
+     
+ <?php
+          while($data=mysql_fetch_array($query)){
+       ?>
+       <tr>
+         <td><?php echo $data['id_gardu'];?></td>
+         <td><?php echo $data['tanggal'];?></td>
+         <td><?php echo $data['penyulang'];?></td>
+         <td><?php echo $data['tahunpembuatan'];?></td>
+         <td><?php echo $data['merk'];?></td>
+         <td><?php echo $data['kapasitas'];?></td>
+         <td><?php echo $data['lokasi'];?></td>
+       </tr>
+       <?php } ?>
